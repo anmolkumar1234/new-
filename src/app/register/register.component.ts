@@ -1,5 +1,3 @@
-// register.component.ts
-
 import { Component } from '@angular/core';
 
 @Component({
@@ -34,3 +32,5 @@ export class RegisterComponent {
     console.log('Password:', this.password);
   }
 }
+
+
