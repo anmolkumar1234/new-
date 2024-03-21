@@ -1,4 +1,3 @@
-// profile.component.ts
 import { Component } from '@angular/core';
 
 @Component({
@@ -25,7 +24,21 @@ export class ProfileComponent {
   editMode: any = {}; // Object to track edit mode for each field
   donations: any[] = ['Donation 1', 'Donation 2', 'Donation 3']; // Example donations data
   totalBalance: number = 1000; // Example total balance
-  campaignData: any;
+  campaignData: any = {
+    cause: '',
+    title: '',
+    description: '',
+    goalAmount: null,
+    startDate: null,
+    endDate: null,
+    beneficiaryName: '',
+    beneficiaryAge: null,
+    beneficiaryCity: '',
+    beneficiaryMobile: ''
+  };
+
+  campaigns: any[] = []; // Array to store created campaigns
+  editModeCampaign: any = null; // Variable to track which campaign is being edited
 
   showProfile() {
     this.selectedOption = 'profile';
@@ -42,9 +55,6 @@ export class ProfileComponent {
   showMyCampaigns() {
     this.selectedOption = 'myCampaigns';
   }
-
- 
-
 
   toggleEditMode(field: string) {
     this.editMode[field] = !this.editMode[field];
@@ -67,16 +77,28 @@ export class ProfileComponent {
   createCampaign() {
     // Add logic to handle form submission and campaign creation
     console.log('Campaign created with data:', this.campaignData);
+    
+    // Push the newly created campaign to the array of campaigns
+    this.campaigns.push({
+      cause: this.campaignData.cause,
+      title: this.campaignData.title,
+      description: this.campaignData.description,
+      goalAmount: this.campaignData.goalAmount,
+      startDate: this.campaignData.startDate,
+      endDate: this.campaignData.endDate
+    });
+
     // Reset the form after submission
     this.resetForm();
+
     // Switch back to the default view after campaign creation
-    this.showBalance(); // Change to whichever default view you prefer
+    this.showMyCampaigns(); // Change to whichever default view you prefer
   }
 
   cancelCreateCampaign() {
     // Reset the form and switch back to the default view
     this.resetForm();
-    this.showBalance(); // Change to whichever default view you prefer
+    this.showMyCampaigns(); // Change to whichever default view you prefer
   }
 
   resetForm() {
@@ -94,6 +116,31 @@ export class ProfileComponent {
       beneficiaryMobile: ''
     };
   }
+
+  editCampaign(campaign: any) {
+    // For demonstration, let's log the campaign data
+    console.log('Editing campaign:', campaign);
+    // You can implement navigation to a separate component for editing campaigns here
+    // Alternatively, you can implement editing directly within this component
+    this.editModeCampaign = campaign;
+  }
+
+  saveEditedCampaign(campaign: any) {
+    // Implement logic to save edited campaign details
+    console.log('Edited campaign:', campaign);
+    this.editModeCampaign = null; // Reset edit mode after saving
+  }
+  
+  cancelEditCampaign() {
+    this.editModeCampaign = null; // Reset edit mode without saving
+  }
+  
+
+  deleteCampaign(campaign: any) {
+    // Add logic to delete a campaign
+    const index = this.campaigns.indexOf(campaign);
+    if (index !== -1) {
+      this.campaigns.splice(index, 1);
+    }
+  }
 }
-
-
